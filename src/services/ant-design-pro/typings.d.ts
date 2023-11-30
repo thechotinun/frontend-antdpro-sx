@@ -24,7 +24,15 @@ declare namespace API {
   };
 
   type LoginResult = {
-    status?: string;
+    data?: {
+      accessToken: string;
+      refreshToken: string;
+    };
+    status?: {
+      code: number;
+      message: string;
+    };
+    // status?: string;
     type?: string;
     currentAuthority?: string;
   };

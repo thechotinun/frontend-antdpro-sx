@@ -1,13 +1,26 @@
 // @ts-ignore
 /* eslint-disable */
-import { request } from '@umijs/max';
+// import { request } from '@umijs/max';
+import { extend } from 'umi-request';
+
+const request = extend({
+  prefix: 'http://localhost:3100/api/v1',
+  timeout: 1000,
+  headers: {
+    'Content-Type': 'multipart/form-data',
+  },
+});
 
 /** 获取当前的用户 GET /api/currentUser */
 export async function currentUser(options?: { [key: string]: any }) {
   return request<{
     data: API.CurrentUser;
-  }>('/api/currentUser', {
+  }>('/user/getprofile', {
     method: 'GET',
+    headers: {
+      Authorization:
+        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ZmYzNDUwMy01OTJmLTQ5YjgtYjFkZC1mY2U0MDNjYTczNGEiLCJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpYXQiOjE3MDEzNjM3NDQsImV4cCI6MTcwMTM2NDY0NH0.kQmtAeN5KncOSbMiHIXkM3MBCqFWN4BsEe4koeTjFtY',
+    },
     ...(options || {}),
   });
 }
@@ -22,7 +35,7 @@ export async function outLogin(options?: { [key: string]: any }) {
 
 /** 登录接口 POST /api/login/account */
 export async function login(body: API.LoginParams, options?: { [key: string]: any }) {
-  return request<API.LoginResult>('/api/login/account', {
+  return request<API.LoginResult>('/backend/auth/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -64,10 +77,10 @@ export async function rule(
 export async function updateRule(options?: { [key: string]: any }) {
   return request<API.RuleListItem>('/api/rule', {
     method: 'POST',
-    data:{
+    data: {
       method: 'update',
       ...(options || {}),
-    }
+    },
   });
 }
 
@@ -75,10 +88,10 @@ export async function updateRule(options?: { [key: string]: any }) {
 export async function addRule(options?: { [key: string]: any }) {
   return request<API.RuleListItem>('/api/rule', {
     method: 'POST',
-    data:{
+    data: {
       method: 'post',
       ...(options || {}),
-    }
+    },
   });
 }
 
@@ -86,9 +99,9 @@ export async function addRule(options?: { [key: string]: any }) {
 export async function removeRule(options?: { [key: string]: any }) {
   return request<Record<string, any>>('/api/rule', {
     method: 'POST',
-    data:{
+    data: {
       method: 'delete',
       ...(options || {}),
-    }
+    },
   });
 }

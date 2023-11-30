@@ -1,5 +1,5 @@
 import { Footer } from '@/components';
-import { login } from '@/services/apis/authenticate';
+import { login } from '@/services/ant-design-pro/api';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { LoginForm, ProFormCheckbox, ProFormText } from '@ant-design/pro-components';
 import { useEmotionCss } from '@ant-design/use-emotion-css';
@@ -47,7 +47,7 @@ const LoginMessage: React.FC<{
 };
 
 const Login: React.FC = () => {
-  const [userLoginState, setUserLoginState] = useState<APIs.LoginResult>({});
+  const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
   const [type, setType] = useState<string>('account');
   const { initialState, setInitialState } = useModel('@@initialState');
 
@@ -78,10 +78,10 @@ const Login: React.FC = () => {
     }
   };
 
-  const handleSubmit = async (values: APIs.LoginParams) => {
+  const handleSubmit = async (values: API.LoginParams) => {
     try {
       const msg = await login({ ...values, type });
-      if (msg.data.status.message === 'OK') {
+      if (msg.status?.message === 'OK') {
         const defaultLoginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',
           defaultMessage: '登录成功！',
@@ -94,7 +94,7 @@ const Login: React.FC = () => {
         return;
       }
       console.log(msg);
-      setUserLoginState(msg.data);
+      setUserLoginState(msg);
     } catch (error) {
       const defaultLoginFailureMessage = intl.formatMessage({
         id: 'pages.login.failure',
