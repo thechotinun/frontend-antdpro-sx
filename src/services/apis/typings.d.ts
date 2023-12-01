@@ -106,4 +106,27 @@ declare namespace API {
     description?: string;
     type?: NoticeIconItemType;
   };
+
+  type Posts = {
+    id: number;
+    title: string;
+    postedAt: date;
+    postedBy: string;
+    tags: Array;
+  };
+
+  type TablePosts = {
+    status?: {
+      code: number;
+      message: string;
+    };
+    meta: {
+      totalItems: number;
+      itemCount: number;
+      itemsPerPage: number;
+      totalPages: number;
+      currentPage: number;
+    };
+    data: Array<Posts>;
+  };
 }

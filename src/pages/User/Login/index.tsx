@@ -1,5 +1,5 @@
 import { Footer } from '@/components';
-import { login } from '@/services/apis/authenticate';
+import { login } from '@/services/apis/authenticate.api';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { LoginForm, ProFormCheckbox, ProFormText } from '@ant-design/pro-components';
 import { useEmotionCss } from '@ant-design/use-emotion-css';
