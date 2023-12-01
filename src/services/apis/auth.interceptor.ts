@@ -1,32 +1,45 @@
-import axios from 'axios';
+/**
+ * request api : https://github.com/umijs/umi-request
+ */
 import Cookies from 'js-cookie';
+import { extend } from 'umi-request';
+
+const errorHandler = (error: any) => {
+  const { response } = error;
+  return response;
+};
+
+const request = extend({
+  prefix: 'http://localhost:3100/api/v1',
+  errorHandler,
+  // credentials: '',
+});
 
 function getToken() {
   return Cookies.get('token-user');
 }
 
-axios.interceptors.request.use(
-  (config) => {
-    const token = getToken();
+request.interceptors.request.use((url: string, options: RequestInit) => {
+  const headersInit: HeadersInit = {};
+  options.headers = headersInit;
 
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
-    }
+  const token = getToken();
 
-    return config;
-  },
-  (error) => Promise.reject(error),
-);
+  if (token) {
+    options.headers['Authorization'] = `Bearer ${token}`;
+  }
 
-axios.interceptors.response.use(
-  (response) => {
-    // const { config, data } = response;
-    return Promise.resolve(response);
-  },
-  async function (error) {
-    // const { response } = error;
-    return Promise.reject(error);
-  },
-);
+  options.headers = {
+    ...options.headers,
+  };
 
-export const axiosInterceptor = axios;
+  return {
+    url: `${url}`,
+    options: {
+      ...options,
+      interceptors: true,
+    },
+  };
+});
+
+export default request;

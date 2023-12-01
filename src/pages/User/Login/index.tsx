@@ -1,10 +1,11 @@
 import { Footer } from '@/components';
-import { login } from '@/services/ant-design-pro/api';
+import { login } from '@/services/apis/authenticate';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { LoginForm, ProFormCheckbox, ProFormText } from '@ant-design/pro-components';
 import { useEmotionCss } from '@ant-design/use-emotion-css';
 import { FormattedMessage, Helmet, SelectLang, history, useIntl, useModel } from '@umijs/max';
 import { Alert, Tabs, message } from 'antd';
+import Cookies from 'js-cookie';
 import React, { useState } from 'react';
 import { flushSync } from 'react-dom';
 import Settings from '../../../../config/defaultSettings';
@@ -82,6 +83,7 @@ const Login: React.FC = () => {
     try {
       const msg = await login({ ...values, type });
       if (msg.status?.message === 'OK') {
+        Cookies.set('token-user', msg.data?.accessToken || '');
         const defaultLoginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',
           defaultMessage: '登录成功！',

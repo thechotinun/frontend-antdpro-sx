@@ -1,5 +1,21 @@
-import { axiosInterceptor } from './auth.interceptor';
+import request from './auth.interceptor';
 
-export const login = (reqBody: APIs.LoginParams) => {
-  return axiosInterceptor.post(`${REACT_APP_API}/backend/auth/login`, reqBody);
-};
+export async function login(body: API.LoginParams, options?: { [key: string]: any }) {
+  return request<API.LoginResult>('/backend/auth/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+export async function currentUser(options?: { [key: string]: any }) {
+  return request<{
+    data: API.CurrentUser;
+  }>('/user/getprofile', {
+    method: 'GET',
+    ...(options || {}),
+  });
+}

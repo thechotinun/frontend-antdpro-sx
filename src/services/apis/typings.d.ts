@@ -1,7 +1,7 @@
 // @ts-ignore
 /* eslint-disable */
 
-declare namespace APIs {
+declare namespace API {
   type CurrentUser = {
     name?: string;
     avatar?: string;
@@ -24,15 +24,17 @@ declare namespace APIs {
   };
 
   type LoginResult = {
-    status?: {
-      code: number;
-      message: string;
-    };
     data?: {
       accessToken: string;
       refreshToken: string;
     };
+    status?: {
+      code: number;
+      message: string;
+    };
+    // status?: string;
     type?: string;
+    currentAuthority?: string;
   };
 
   type PageParams = {
