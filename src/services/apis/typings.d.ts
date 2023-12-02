@@ -108,25 +108,30 @@ declare namespace API {
   };
 
   type Posts = {
-    id: number;
-    title: string;
-    postedAt: date;
-    postedBy: string;
-    tags: Array;
+    id?: number;
+    title?: string;
+    postedAt?: date;
+    postedBy?: string;
+    tags?: [];
   };
 
   type TablePosts = {
     status?: {
-      code: number;
-      message: string;
+      code?: number;
+      message?: string;
     };
-    meta: {
-      totalItems: number;
-      itemCount: number;
-      itemsPerPage: number;
-      totalPages: number;
-      currentPage: number;
+    meta?: {
+      totalItems?: number;
+      itemCount?: number;
+      itemsPerPage?: number;
+      totalPages?: number;
+      currentPage?: number;
     };
-    data: Array<Posts>;
+    data?: Array<Posts>;
+  };
+
+  type RequestDataInterface = {
+    data?: Array<Posts>;
+    success?: boolean;
   };
 }

@@ -1,4 +1,5 @@
-import { addRule, removeRule, rule, updateRule } from '@/services/ant-design-pro/api';
+import { addRule, removeRule, updateRule } from '@/services/ant-design-pro/api';
+import { tablePosts } from '@/services/apis/posts.api';
 import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns, ProDescriptionsItemProps } from '@ant-design/pro-components';
 import {
@@ -98,7 +99,7 @@ const TableList: React.FC = () => {
   const [showDetail, setShowDetail] = useState<boolean>(false);
 
   const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<API.RuleListItem>();
+  const [currentRow, setCurrentRow] = useState<API.Posts>();
   const [selectedRowsState, setSelectedRows] = useState<API.RuleListItem[]>([]);
 
   /**
@@ -107,7 +108,7 @@ const TableList: React.FC = () => {
    * */
   const intl = useIntl();
 
-  const columns: ProColumns<API.RuleListItem>[] = [
+  const columns: ProColumns<API.Posts>[] = [
     {
       title: (
         <FormattedMessage
@@ -115,8 +116,8 @@ const TableList: React.FC = () => {
           defaultMessage="Rule name"
         />
       ),
-      dataIndex: 'name',
-      tip: 'The rule name is the unique key',
+      dataIndex: 'title',
+      // tip: 'The rule name is the unique key',
       render: (dom, entity) => {
         return (
           <a
@@ -217,28 +218,6 @@ const TableList: React.FC = () => {
         return defaultRender(item);
       },
     },
-    {
-      title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="Operating" />,
-      dataIndex: 'option',
-      valueType: 'option',
-      render: (_, record) => [
-        <a
-          key="config"
-          onClick={() => {
-            handleUpdateModalOpen(true);
-            setCurrentRow(record);
-          }}
-        >
-          <FormattedMessage id="pages.searchTable.config" defaultMessage="Configuration" />
-        </a>,
-        <a key="subscribeAlert" href="https://procomponents.ant.design/">
-          <FormattedMessage
-            id="pages.searchTable.subscribeAlert"
-            defaultMessage="Subscribe to alerts"
-          />
-        </a>,
-      ],
-    },
   ];
 
   return (
@@ -264,7 +243,13 @@ const TableList: React.FC = () => {
             <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="New" />
           </Button>,
         ]}
-        request={rule}
+        request={async (params: any, sort: any, filter: any) => {
+          const msg = await tablePosts(params, sort, filter);
+          return Promise.resolve({
+            data: msg.data,
+            success: true,
+          });
+        }}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {
