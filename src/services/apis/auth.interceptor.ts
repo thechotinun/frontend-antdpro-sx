@@ -1,6 +1,7 @@
 /**
  * request api : https://github.com/umijs/umi-request
  */
+import { history } from '@umijs/max';
 import { notification } from 'antd';
 import Cookies from 'js-cookie';
 import { extend } from 'umi-request';
@@ -22,6 +23,8 @@ const codeMessage: { [key: number]: string } = {
   503: 'Service is unavailable, server is temporarily overloaded or maintained',
   504: 'Gateway Timeout',
 };
+
+const loginPath = '/user/login';
 
 const errorHandler = (error: any) => {
   const { response } = error;
@@ -46,6 +49,7 @@ const errorHandler = (error: any) => {
       message: 'Network Error',
     });
   }
+  history.push(loginPath);
   return response;
 };
 

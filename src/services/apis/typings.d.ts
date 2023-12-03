@@ -40,6 +40,7 @@ declare namespace API {
   type PageParams = {
     current?: number;
     pageSize?: number;
+    title?: string;
   };
 
   type RuleListItem = {
@@ -107,6 +108,15 @@ declare namespace API {
     type?: NoticeIconItemType;
   };
 
+  type Post = {
+    id?: number;
+    title?: string;
+    content?: string;
+    postedAt?: date;
+    postedBy?: string;
+    tags?: [];
+  };
+
   type Posts = {
     id?: number;
     title?: string;
@@ -115,23 +125,29 @@ declare namespace API {
     tags?: [];
   };
 
+  type Meta = {
+    totalItems?: number;
+    itemCount?: number;
+    itemsPerPage?: number;
+    totalPages?: number;
+    currentPage?: number;
+  };
+
   type TablePosts = {
     status?: {
       code?: number;
       message?: string;
     };
-    meta?: {
-      totalItems?: number;
-      itemCount?: number;
-      itemsPerPage?: number;
-      totalPages?: number;
-      currentPage?: number;
-    };
+    meta?: Meta;
     data?: Array<Posts>;
   };
 
   type RequestDataInterface = {
-    data?: Array<Posts>;
+    data?: Posts[];
     success?: boolean;
+  };
+
+  type Date = {
+    dom: string | number | Date;
   };
 }
